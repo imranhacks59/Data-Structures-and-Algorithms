@@ -135,3 +135,102 @@ int main(){
     print(head);
     return 0;
 }
+
+
+
+// only with head*************************************************************************
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+
+    Node(int d){
+        this->data= d;
+        this->next= NULL;
+    }
+    ~Node(){
+        int value = this->data;
+        if(this->next!=NULL){
+        delete next;
+        this->next =NULL;
+        }
+        cout<<"memory free ho gya "<<value<<endl;
+    }
+};
+
+void print(Node* head){
+    Node* temp= head;
+    while(temp!=NULL){
+        cout<< temp->data <<" ";
+        temp = temp->next;
+    }  cout<<endl;
+}
+
+
+void insertNode(Node* &head,int position,int d){
+    if(position ==1){
+        Node*temp = new Node(d);
+        temp->next = head;
+        head = temp;
+        return;
+    }
+    Node*curr = head;
+    int cnt = 1;
+    while(cnt<position-1){
+        curr= curr->next;
+        cnt++;
+    }
+    if(curr->next == NULL){
+        Node*temp =new Node(d);
+        curr->next = temp;
+        temp->next =NULL;
+        return;
+    }
+    Node*temp= new Node(d);
+    temp->next = curr->next;
+    curr->next = temp;
+}
+void deleteNode(Node*&head,int position){
+    if(position ==1){
+        Node*curr =head;
+        head = head->next;
+        curr->next = NULL;
+        delete curr;
+    } else {
+    Node*curr = head;
+    Node*prev = NULL;
+    int cnt = 1;
+    while(cnt<position){
+        prev= curr;
+        curr= curr->next;
+        cnt++;
+    }
+    prev->next =curr->next;
+    curr->next = 0;
+    delete curr;
+}
+}
+
+int main(){
+
+    Node* head = NULL;
+  
+     insertNode(head,1,10);
+     print(head);
+     insertNode(head,2,20);
+     print(head);
+     insertNode(head,3,30);
+     print(head);
+     insertNode(head,4,25);
+     print(head);
+
+     deleteNode(head,3);
+     print(head);
+     deleteNode(head,1);
+     print(head);
+  
+    return 0;
+}
